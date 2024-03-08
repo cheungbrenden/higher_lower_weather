@@ -16,5 +16,10 @@ const getCountryName = async (countryCode) => {
     return request.data[countryCode]
 }
 
+const getLeaderboard = async () => {
+    const request = await axios.get('http://localhost:3002/api/users')
+    return request.data
+}
 
-export default { getAllCities, getTemperatureOfCity, getCountryName }
+
+export default { getAllCities, getTemperatureOfCity, getCountryName, getLeaderboard }
