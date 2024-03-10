@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import cityService from '../services/cities'
+import cityData from '../../db.json'
 
 
 
@@ -36,12 +37,12 @@ const Game = () => {
         const initialComparisonCity = cities[comparisonCityIndex]
 
         const temperatureGivenCity = await cityService.getTemperatureOfCity(initialGivenCity.latitude, initialGivenCity.longitude)
-        const fullCountryNameOfGivenCity = await cityService.getCountryName(initialGivenCity.country)
+        const fullCountryNameOfGivenCity = cityData.countryCodeToName[initialGivenCity.country]
 
         setGivenCity({ ...initialGivenCity, temperature: temperatureGivenCity, fullCountryName: fullCountryNameOfGivenCity })
 
         const temperatureComparisonCity = await cityService.getTemperatureOfCity(initialComparisonCity.latitude, initialComparisonCity.longitude)
-        const fullCountryNameOfComparisonCity = await cityService.getCountryName(initialComparisonCity.country)
+        const fullCountryNameOfComparisonCity = cityData.countryCodeToName[initialComparisonCity.country]
 
         setComparisonCity({ ...initialComparisonCity, temperature: temperatureComparisonCity, fullCountryName: fullCountryNameOfComparisonCity })
 
@@ -63,7 +64,7 @@ const Game = () => {
         const newComparisonCity = cities[comparisonCityIndex]
 
         const temperatureComparisonCity = await cityService.getTemperatureOfCity(newComparisonCity.latitude, newComparisonCity.longitude)
-        const fullCountryNameOfComparisonCity = await cityService.getCountryName(newComparisonCity.country)
+        const fullCountryNameOfComparisonCity = cityData.countryCodeToName[newComparisonCity.country]
 
         setComparisonCity({ ...newComparisonCity, temperature: temperatureComparisonCity, fullCountryName: fullCountryNameOfComparisonCity })
 
@@ -86,12 +87,8 @@ const Game = () => {
     }
 
     useEffect(() => {
-        cityService
-            .getAllCities()
-            .then(data => {
-                setCities(data)
-                initializeStartingCities(data)
-            })
+        setCities(cityData.cities)
+        initializeStartingCities(cityData.cities)
     }, [])
 
 

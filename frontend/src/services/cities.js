@@ -1,9 +1,6 @@
 import axios from 'axios'
+const baseUrl = 'http://localhost:3001/api/users'
 
-const getAllCities = async () => {
-    const request = await axios.get('http://localhost:3001/cities')
-    return request.data
-}
 
 // units = imperial
 const getTemperatureOfCity = async (lat, lon) => {
@@ -11,15 +8,10 @@ const getTemperatureOfCity = async (lat, lon) => {
     return request.data.main.temp
 }
 
-const getCountryName = async (countryCode) => {
-    const request = await axios.get('http://localhost:3001/countryCodeToName')
-    return request.data[countryCode]
-}
-
 const getLeaderboard = async () => {
-    const request = await axios.get('http://localhost:3002/api/users')
+    const request = await axios.get(baseUrl)
     return request.data
 }
 
 
-export default { getAllCities, getTemperatureOfCity, getCountryName, getLeaderboard }
+export default { getTemperatureOfCity, getLeaderboard }
