@@ -19,26 +19,54 @@ mongoose.set('strictQuery', false)
 mongoose.connect(url)
 
 app.get('/api/users', (request, response) => {
-    User.find({}).then(notes => {
-        response.json(notes)
+    User.find({}).then(users => {
+        response.json(users)
+    })
+})
+
+app.get('/api/users/:id', (request, response) => {
+    const id = request.params.id
+    User.findOne({ id }).then(user => {
+        response.json(user)
     })
 })
 
 app.post('/api/users', (request, response) => {
 
     const body = request.body
-
-    if (body.username === undefined || body.highscore === undefined) {
+    console.log(body)
+    if (body.username === undefined) {
         return response.status(400).json({ error: 'invalid request' })
     }
 
     const newUser = new User({
+        id: body.id,
         username: body.username,
-        highscore: body.highscore
+        picture: body.picture,
+        email: body.email,
+        highscore: 0
     })
     newUser.save().then(savedUser => {
         response.json(savedUser)
     })
+})
+
+app.put('/api/users/:id', (request, response) => {
+
+    const body = request.body
+
+    const updatedUser = {
+        id: body.id,
+        username: body.username,
+        picture: body.picture,
+        email: body.email,
+        highscore: body.highscore
+    }
+
+    User.findOneAndUpdate({ id: body.id }, updatedUser, { new: true }).then(user => {
+        response.json(user)
+    })
+
 })
 
 
@@ -48,11 +76,6 @@ app.get('/api/countryCodeToName', (request, response) => {
     })
 })
 
-
-
-// app.put('/api/users/:id', (request, response) => {
-
-// })
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
