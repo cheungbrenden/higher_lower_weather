@@ -70,11 +70,11 @@ app.put('/api/users/:id', (request, response) => {
 })
 
 
-app.get('/api/countryCodeToName', (request, response) => {
-    User.find({}).then(notes => {
-        response.json(notes)
-    })
-})
+// app.get('/api/countryCodeToName', (request, response) => {
+//     User.find({}).then(notes => {
+//         response.json(notes)
+//     })
+// })
 
 
 const PORT = process.env.PORT || 3001
