@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
+    "dev": "npm run build:ui && npm start",
+    "_comment_altdev": "nodemon index.js",
+
     "build:ui": "rm -rf dist && cd ../frontend && npm run build && cp -r dist ../backend",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push origin main",
     "test": "echo \"Error: no test specified\" && exit 1"
